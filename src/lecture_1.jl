@@ -6,7 +6,7 @@ C/Fortran (petaflop-family 😎).
 
 Problem: Noch sehr junge Sprache (wenig StackOverflow Einträge, Syntax noch
 dynamisch). Setzt sich jedoch allmählich durch (BigData): 
-NASA, Amazon, BlackRock, Intel, IBM ... 
+NASA, Amazon, BlackRock, Intel, IBM ... --> bright future (right next to GO, RUST, TypeScript)
 
 Am besten in: LinearAlgebra, DifferentialEquations, MachineLearning ... (state
 of the art packages) aus diesen Grund werden ganze Projekte in die Sprache umgeschrieben 
@@ -32,7 +32,7 @@ a = 1.
 b = [0. , 1. , 2. , 3., 4.] 
 
 c = a .+ b          # element wise addition (same with every other elementary operation (even self written functions))
-
+c
 # first value of c
 c[1]
 c[begin]
@@ -49,6 +49,7 @@ c[1:2:end] #every second element
 
 # lets create some useful arrays (just like in Matlab)
 η = zeros(6) # create 6 element zeros array
+
 # Wait! How did I write that eta? Just use common Latex : η = \eta + <tab>  --> extremely readable code
 
 
@@ -65,23 +66,30 @@ u = 0.:0.1:0.4                      # the dirty way: start:step:stop
 v₁ = range(30., 40., length = 9)
 v₂ = range(0., 100., step = 0.1)
 
-# Wait what is this? No Array? I want an array! --> Array wird wirklich nur dann erzeugt, wenn es auch wirklich benötigt wird: collect(collection)
+# Wait what is this? No Array? I want an array! 😠 
+# --> Array wird wirklich nur dann erzeugt, wenn es auch wirklich benötigt wird: 
+# array = collect(collection)
 # compare Bytes: 
 sizeof(v₂)
 sizeof(collect(v₂))
 
 arr = collect(v₁)
 
-# !!! BITTE KEINE ANGST VOR LOOPS HABEN !!! --> Vectorized code gleiche Performance wie elementweiser Code --> oftmals bessere Lesbarkeit 
+
+# !!! BITTE KEINE ANGST VOR LOOPS HABEN !!! 😎
+# --> Vectorized code gleiche Performance wie elementweiser Code 
+# --> oftmals bessere Lesbarkeit 
 
 # For loops over an array 
+
 for elem in arr 
     println(elem)
 end
 
+
 # for loop over array indices
 for idx in eachindex(arr)
-    println(idx)
+    println(arr[idx])
 end
 
 # for loop over array and indices at the same time 
@@ -89,11 +97,18 @@ for (idx, elem) in enumerate(arr)
     println("$idx" * ": " * "$elem") 
 end
 
+countries = ["Germany", "Spain", "Schweiz"]
+capitals = ["Berlin", "Madrid", "Es ist kompliziert."]
+
+for (country, capital) in zip(countries, capitals)
+    println("$country" * ": " * "$capital")
+end
+
 # while loop
 herze = ["❤", "❤", "❤", "❤"]
 while !isempty(herze)
     println(herze)
-    popfirst!(herze)
+    pop!(herze)
 end
 
 # Funktionen in Julia
@@ -106,7 +121,7 @@ function myadd(a, b)
 end
 
 p = myadd(2., 5.)
-c = myadd("hi", " mom")
+c = myadd("hi", " mom!")
 
 # multiple dispatch: Same function name, different methods.  
 
@@ -115,13 +130,15 @@ function Σ(a::Number, b::Number)
 end
 
 function Σ(a::String, b::String)
-    return a * b
+    return a * b 
 end
 
-p = Σ(2., 5)
-c = Σ("hi", " mom")
-
 methods(Σ)
+
+p = Σ(2., 5)
+c = Σ("hi", " mom!")
+
+
 
 # Inplace Funktionen. Oft soll eine Funktion einen Input aktiv verändern und keine Kopie erzeugen. 
 # z.B. [1., 2., 3., 4.] --> [1., 4., 9., 16.] ohne eine Kopie des Inputs (Inplace manipulation).
@@ -141,7 +158,7 @@ end
 # inplace (does not exist in Matlab), preallocate solution that shall be modified. 
 # Convention: modify function name with "!", mutable argument comes first
 
-sol = similar(x) # N/A in Matlab, create an empty array with the dimensions of x
+sol = similar(x) # N/A in Matlab, create an empty array with the dimensions of x‚
 
 function quad!(out, x)
     out .= x.^2
@@ -152,7 +169,7 @@ sol
 
 # Stellen wir uns vor wir möchten ein Array, das alle ungeraden Zahlen von 1 bis 8 quadriert. 
 # the naive way:
-x = collect(1:1:8)
+x = 1:8
 
 function example(number_array)
     squared = Int64[]
